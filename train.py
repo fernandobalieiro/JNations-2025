@@ -1,5 +1,4 @@
 import pandas as pd
-import numpy as np
 import mlflow
 import mlflow.sklearn
 from sklearn.model_selection import train_test_split
@@ -8,26 +7,12 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.metrics import accuracy_score, f1_score
 from sklearn.preprocessing import StandardScaler
 from mlflow.tracking import MlflowClient
+from preprocessing import preprocess_data
 
-# ─── Data Load ──────────────────────────────────────────────
-df = pd.read_csv("data/adult.csv")
-df['income_higher_than_50k'] = df['income'].map({'<=50K': 0, '>50K': 1})
-df = df.replace('?', np.nan)
-df = df.dropna()
 
-# ─── One-Hot Encode ─────────────────────────────────────────
-cat_cols = df.select_dtypes('object').columns.drop('income')
-df_enc = pd.get_dummies(df, columns=cat_cols)
+X_train, y_train, scaler = preprocess_data("data/adult.csv")
+X_train, X_test, y_train, y_test = train_test_split(X_train, y_train, test_size=0.2, random_state=42)
 
-# ─── Scaling ────────────────────────────────────────────────
-num_cols = ['age', 'fnlwgt', 'educational-num', 'capital-gain', 'capital-loss', 'hours-per-week']
-scaler = StandardScaler()
-df_enc[num_cols] = scaler.fit_transform(df_enc[num_cols])
-
-# ─── Train/Test Split ───────────────────────────────────────
-X = df_enc.drop(['income', 'income_higher_than_50k'], axis=1)
-y = df_enc['income_higher_than_50k']
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
 # ─── Model Training ─────────────────────────────────────────
 model_lr = LogisticRegression(max_iter=1000)
@@ -85,3 +70,20 @@ else:
         stage="Production",
         archive_existing_versions=True
     )
+
+
+
+
+
+
+
+
+
+model = mlflow.sklearn.load_model("models:/LogisticRegression-AdultIncome-Model/Production")
+
+new_data = pd.read_csv("data/new_sample.csv")
+
+X_new, _, _ = preprocess_data("data/new_sample.csv", scaler=scaler, fit_scaler=False)
+X_new = X_new.reindex(columns=X_train.columns, fill_value=0)
+predictions = model.predict(X_new)
+print(predictions)
