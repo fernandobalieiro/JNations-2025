@@ -6,9 +6,9 @@ import mlflow
 import mlflow.sklearn
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
+from sklearn.tree import DecisionTreeClassifier
 from sklearn.metrics import accuracy_score, f1_score
 from sklearn.preprocessing import StandardScaler
-from sklearn.metrics import classification_report, confusion_matrix
 
 # ─── Data Load ──────────────────────────────────────────────
 df = pd.read_csv("data/adult.csv")
@@ -30,19 +30,35 @@ X = df_enc.drop(['income', 'income_higher_than_50k'], axis=1)
 y = df_enc['income_higher_than_50k']
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-# ─── Model Training ────────────────────────────────────────
-model = LogisticRegression(max_iter=1000)
-model.fit(X_train, y_train)
-y_pred = model.predict(X_test)
+# ─── Model Training: Logistic Regression ────────────────────
+model_lr = LogisticRegression(max_iter=1000)
+model_lr.fit(X_train, y_train)
+y_pred_lr = model_lr.predict(X_test)
 
-acc = accuracy_score(y_test, y_pred)
-f1 = f1_score(y_test, y_pred)
+acc_lr = accuracy_score(y_test, y_pred_lr)
+f1_lr = f1_score(y_test, y_pred_lr)
 
-# ─── MLflow Logging ────────────────────────────────────────
+# ─── Model Training: Decision Tree ──────────────────────────
+model_dt = DecisionTreeClassifier(max_depth=5, random_state=42)
+model_dt.fit(X_train, y_train)
+y_pred_dt = model_dt.predict(X_test)
+
+acc_dt = accuracy_score(y_test, y_pred_dt)
+f1_dt = f1_score(y_test, y_pred_dt)
+
+# ─── MLflow Logging ─────────────────────────────────────────
 mlflow.set_experiment("adult-income-workshop")
 
+# Log logistic regression
 with mlflow.start_run(run_name="logistic-regression"):
     mlflow.log_param("max_iter", 1000)
-    mlflow.log_metric("accuracy", acc)
-    mlflow.log_metric("f1_score", f1)
-    mlflow.sklearn.log_model(model, "model", registered_model_name="AdultIncomeModel")
+    mlflow.log_metric("accuracy", acc_lr)
+    mlflow.log_metric("f1_score", f1_lr)
+    mlflow.sklearn.log_model(model_lr, "model", registered_model_name="LogisticRegression-AdultIncome-Model")
+
+# Log decision tree
+with mlflow.start_run(run_name="decision-tree"):
+    mlflow.log_param("max_depth", 5)
+    mlflow.log_metric("accuracy", acc_dt)
+    mlflow.log_metric("f1_score", f1_dt)
+    mlflow.sklearn.log_model(model_dt, "model", registered_model_name="DecisionTree-AdultIncome-Model")
