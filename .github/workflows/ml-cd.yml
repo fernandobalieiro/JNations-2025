@@ -24,3 +24,11 @@ jobs:
       - name: Run training script
         run: |
           python train.py
+      
+      - name: Upload model artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: model-artifacts
+          path: |
+            metrics.txt
+            confusion_matrix.png
