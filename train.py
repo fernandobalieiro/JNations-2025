@@ -1,3 +1,4 @@
+import os
 import pandas as pd
 import mlflow
 import mlflow.sklearn
@@ -28,6 +29,8 @@ acc_dt = accuracy_score(y_test, y_pred_dt)
 f1_dt = f1_score(y_test, y_pred_dt)
 
 # ─── MLflow Logging ─────────────────────────────────────────
+# Set MLflow tracking URI
+mlflow.set_tracking_uri(os.getenv("MLFLOW_TRACKING_URI"))
 mlflow.set_experiment("adult-income-workshop")
 client = MlflowClient()
 
