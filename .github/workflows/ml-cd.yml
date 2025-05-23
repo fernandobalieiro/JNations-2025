@@ -24,9 +24,9 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Run training script
+      - name: Run ml-pipeline script
         run: |
-          python train.py
+          python main.py
       
       - name: Upload model artifacts
         uses: actions/upload-artifact@v4

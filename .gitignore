@@ -182,3 +182,4 @@ cython_debug/
 
 # MLflow tracking
 mlruns/
+outputs/

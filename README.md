@@ -17,10 +17,10 @@ This project trains and compares machine learning models (Logistic Regression an
 
 ## 🚀 Quickstart
 
-### 1. Clone and Setup
+### 1. Fork & Clone and Setup
 
 ```bash
-git clone https://github.com/JiDarwish/JNations-2025.git
+git clone https://github.com/<YOUR_GITHUB_WORKSPACE>/JNations-2025.git
 cd JNations-2025
 
 python -m venv .venv
@@ -33,6 +33,11 @@ pip install -r requirements.txt
 ```bash
 echo "MLFLOW_TRACKING_URI=https://your-mlflow-server.up.railway.app" > .env
 ```
+
+If you want to run on Railway, go to their website and create a new project.
+Search for `mlflow` template and select it.
+It will create a container with mlflow server running.
+Check the url and set it in the `.env` file.
 
 > ✅ Your `.env` is only used locally. In CI, MLflow is configured via GitHub Secrets.
 
@@ -133,4 +138,3 @@ python main.py
 ### 4. Inspect
 
 - Go to MLflow UI to compare runs and see the registry
-
