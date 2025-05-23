@@ -1,0 +1,14 @@
+aliases: []
+creation_timestamp: 1748002128286
+current_stage: Production
+description: null
+last_updated_timestamp: 1748002129864
+name: LogisticRegression-AdultIncome-Model
+run_id: 86f0ddf4eccf4f1bba1060389daebadb
+run_link: null
+source: /Users/rkargul/Documents/work/JNations-2025/mlflow-tracking-production-f89b.up.railway.app/479965316876761057/86f0ddf4eccf4f1bba1060389daebadb/artifacts/model
+status: READY
+status_message: null
+storage_location: /Users/rkargul/Documents/work/JNations-2025/mlflow-tracking-production-f89b.up.railway.app/479965316876761057/86f0ddf4eccf4f1bba1060389daebadb/artifacts/model
+user_id: null
+version: 2
