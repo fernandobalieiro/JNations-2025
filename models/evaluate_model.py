@@ -3,6 +3,7 @@ import numpy as np
 from sklearn.metrics import f1_score, confusion_matrix
 import matplotlib.pyplot as plt
 
+
 def save_confusion_matrix(cm, model_name):
     plt.figure(figsize=(5, 5))
     plt.imshow(cm, cmap="Blues", interpolation="nearest")
@@ -13,6 +14,7 @@ def save_confusion_matrix(cm, model_name):
     plt.tight_layout()
     plt.savefig(f"outputs/confusion_matrix_{model_name.lower().replace(' ', '_')}.png")
     plt.close()
+
 
 def evaluate_and_save(models, X_test, y_test):
     os.makedirs("outputs", exist_ok=True)
