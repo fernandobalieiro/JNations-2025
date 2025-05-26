@@ -8,7 +8,6 @@ This project trains and compares machine learning models (Logistic Regression an
 - Model training and evaluation
 - Confusion matrix visualization for each model
 - MLflow logging and model registry integration
-- Auto-promotion of the best model to **Production**
 - Custom experiment logging (not using the default)
 - CI/CD with GitHub Actions
 - Hosted MLflow tracking server (via Railway)
@@ -55,7 +54,6 @@ This will:
 - Evaluate each model, save F1 scores and confusion matrices
 - Create or use a named MLflow experiment (`AdultIncomeExperiment`)
 - Log both models to MLflow
-- Promote the best-performing model (highest F1) to **Production**
 
 **Outputs:**
 - `outputs/metrics.txt` – F1 scores for each model
@@ -71,7 +69,6 @@ On every push to `main`:
 
 - `main.py` is executed
 - Metrics and models are logged to MLflow
-- Best model is promoted to `Production`
 - Confusion matrices and metrics are uploaded as artifacts
 
 ```yaml
@@ -98,7 +95,6 @@ Track:
 - Parameters and hyperparameters
 - Metrics (F1, accuracy)
 - Versioned models
-- Production deployment stage
 - Confusion matrices and experiment runs
 
 ---
