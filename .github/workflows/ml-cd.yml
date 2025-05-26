@@ -12,26 +12,28 @@ jobs:
       MLFLOW_TRACKING_URI: ${{ secrets.MLFLOW_TRACKING_URI }}
 
     steps:
-      - uses: actions/checkout@v3
+      - name: 📥 Checkout code
+        uses: actions/checkout@v3
 
-      - name: Set up Python
+      - name: 🐍 Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: 3.9
 
-      - name: Install dependencies
+      - name: 📦 Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Run ml-pipeline script
-        run: |
-          python main.py
-      
-      - name: Upload model artifacts
+      - name: 🧠 Run ML pipeline
+        run: python main.py
+
+      - name: 📤 Upload model artifacts
         uses: actions/upload-artifact@v4
         with:
           name: model-artifacts
           path: |
             metrics.txt
-            confusion_matrix.png
+            f1_score.txt
+            outputs/confusion_matrix_logistic_regression.png
+            outputs/confusion_matrix_decision_tree.png

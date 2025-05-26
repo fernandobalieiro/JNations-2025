@@ -73,12 +73,12 @@ This will:
 You can simply run MLflow locally using the following command:
 
 ```bash
-mlflow server --host 0.0.0.0 --port 8000
+mlflow server --host 0.0.0.0 --port 8080
 ```
 
 If you want local persistance, indicate a simple sqlite. Additionally, you can indicate where artifacts are stored:
 ```bash
-mlflow server --host 0.0.0.0 --port 8000 --backend-store-uri sqlite:///mlflow.db --default-artifact-root ./mlruns
+mlflow server --host 0.0.0.0 --port 8080 --backend-store-uri sqlite:///mlflow.db --default-artifact-root ./mlruns
 ```
 
 ### 2. Run MLflow with Railway
