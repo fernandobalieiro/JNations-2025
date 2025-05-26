@@ -18,6 +18,8 @@ This project trains and compares machine learning models (Logistic Regression an
 
 ### 1. Fork & Clone and Setup
 
+First, make sure you clone the repository. Then, run the following commands:
+
 ```bash
 git clone https://github.com/<YOUR_GITHUB_WORKSPACE>/JNations-2025.git
 cd JNations-2025
@@ -27,18 +29,20 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-### 2. Set up your `.env` file (for local tracking)
+### 2. Set up your MLFLOW_TRACKING_URI
+GitHub Actions uses `secrets.MLFLOW_TRACKING_URI`.  
+Local `.env` is used with `python-dotenv`.
 
+#### Local tracking: `.env` file
 ```bash
-echo "MLFLOW_TRACKING_URI=https://your-mlflow-server.up.railway.app" > .env
+echo "MLFLOW_TRACKING_URI=https://<YOUR-MLFLOW-SERVER>.up.railway.app" > .env
 ```
 
-If you want to run on Railway, go to their website and create a new project.
-Search for `mlflow` template and select it.
-It will create a container with mlflow server running.
-Check the url and set it in the `.env` file.
-
-> ✅ Your `.env` is only used locally. In CI, MLflow is configured via GitHub Secrets.
+#### Github tracking:
+1. Go to repository > Setting
+2. Secrets and variables
+3. Press on Actions
+4. Press on New repository sercret and add `MLFLOW_TRACKING_URI` with your URI
 
 ---
 
@@ -63,6 +67,28 @@ This will:
 
 ---
 
+## 🚀 Running Locally / Deploying
+
+### 1. Run MLflow Locally
+You can simply run MLflow locally using the following command:
+
+```bash
+mlflow server --host 0.0.0.0 --port 8000
+```
+
+If you want local persistance, indicate a simple sqlite. Additionally, you can indicate where artifacts are stored:
+```bash
+mlflow server --host 0.0.0.0 --port 8000 --backend-store-uri sqlite:///mlflow.db --default-artifact-root ./mlruns
+```
+
+### 2. Run MLflow with Railway
+If you fancy hosting your MLflow and make it accessible, then let's host it on Railway (demo purposes).
+1. Go to [Railway](www.railway.com]), register an account (using Github is convenient)
+2. You will get a free plan with $5, enough for this workshop :)
+3. Create a project
+4. Press on `+ Create` button top right
+5. Choose template > look for `MLflow Tracking`
+6. Deploy > you will get a URI (aka `MLFLOW_TRACKING_URI`)
 ## 🤖 CI/CD Pipeline
 
 On every push to `main`:
@@ -80,57 +106,3 @@ Artifacts:
 - 📄 `metrics.txt`
 - 📊 confusion matrices
 - 📦 model `.pkl` files (from MLflow artifacts)
-
----
-
-## 📈 MLflow UI
-
-Access the hosted MLflow server:
-
-```bash
-mlflow ui  # for local, or visit https://your-mlflow-server.up.railway.app
-```
-
-Track:
-- Parameters and hyperparameters
-- Metrics (F1, accuracy)
-- Versioned models
-- Confusion matrices and experiment runs
-
----
-
-## 🔒 Secrets
-
-GitHub Actions uses `secrets.MLFLOW_TRACKING_URI`.  
-Local `.env` is used with `python-dotenv`.
-
----
-
-## 🚀 Deploying to Railway / Running Locally
-
-### 1. Deploy MLflow to Railway
-
-- Connect your repo to [Railway](https://railway.app/)
-- Add the `MLFLOW_TRACKING_URI` secret
-- Add a `Procfile`:
-
-```bash
-web: mlflow models serve -m models:/LogisticRegression-AdultIncome-Model/Production -h 0.0.0.0 -p $PORT
-```
-
-### 2. Run MLflow Locally
-
-```bash
-mlflow ui
-export MLFLOW_TRACKING_URI=http://localhost:5000
-```
-
-### 3. Train and Register
-
-```bash
-python main.py
-```
-
-### 4. Inspect
-
-- Go to MLflow UI to compare runs and see the registry

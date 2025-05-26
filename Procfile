@@ -1,1 +1,0 @@
-web: python mlflow_server.py

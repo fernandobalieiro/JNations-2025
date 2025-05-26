@@ -1,4 +1,4 @@
-name: ML Training and Logging
+name: ML Pipeline & MLflow Logging
 
 on:
   push:
