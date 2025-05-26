@@ -33,7 +33,4 @@ jobs:
         with:
           name: model-artifacts
           path: |
-            metrics.txt
-            f1_score.txt
-            outputs/confusion_matrix_logistic_regression.png
-            outputs/confusion_matrix_decision_tree.png
+            outputs/f1_score.txt
