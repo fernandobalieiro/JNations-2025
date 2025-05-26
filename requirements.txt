@@ -6,3 +6,4 @@ setuptools==80.8.0
 dotenv==0.9.9
 notebook==7.4.2
 jupyter==1.1.1
+dotenv==0.9.9
