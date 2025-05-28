@@ -7,3 +7,4 @@ dotenv==0.9.9
 notebook==7.4.2
 jupyter==1.1.1
 dotenv==0.9.9
+fairlearn==0.12.0
