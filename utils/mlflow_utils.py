@@ -2,6 +2,7 @@ import os
 import mlflow
 import mlflow.sklearn
 from sklearn.metrics import f1_score
+from sklearn.metrics import accuracy_score
 
 def log_and_register_models(
     models, X_train, y_train, X_test, y_test, experiment_name="AdultIncomeExperiment"
@@ -25,8 +26,11 @@ def log_and_register_models(
                 model.fit(X_train, y_train)
                 preds = model.predict(X_test)
                 score = f1_score(y_test, preds)
+                
+                accuracy = accuracy_score(y_test, preds)
 
                 mlflow.log_metric("f1_score", score)
+                mlflow.log_metric("accuracy_score", accuracy)
                 mlflow.sklearn.log_model(model, "model")
 
                 model_name = f"{name}-AdultIncome-Model"
